@@ -22,6 +22,8 @@ public class SchematicHandler : MonoBehaviour
         btn_ControlRoom.GetComponent<Button>().Select();
         playerCurrentRoom = "ControlRoom";
 
+        //btn_CoolantSystem.GetComponent<Button>().interactable = false;
+
     }
 
     // Update is called once per frame
@@ -140,13 +142,11 @@ public class SchematicHandler : MonoBehaviour
 
                 if (button.name == "ReactorRoom")
                 {
-                    playerIcon.GetComponent<Animator>().SetTrigger("Player_to_Control");
                     playerIcon.GetComponent<Animator>().SetTrigger("Player_to_Reactor");
                 }
 
                 if (button.name == "CoolantSystem")
                 {
-                    playerIcon.GetComponent<Animator>().SetTrigger("Player_to_Control");
                     playerIcon.GetComponent<Animator>().SetTrigger("Player_to_Coolant");
                 }
 
