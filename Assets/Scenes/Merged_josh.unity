@@ -11515,7 +11515,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-<<<<<<< Updated upstream
+
 --- !u!1001 &1136621462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11587,7 +11587,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4147639505318053341, guid: 33f4cc592b1e9b442911a5f7dbedac3e, type: 3}
   m_PrefabInstance: {fileID: 49145208}
   m_PrefabAsset: {fileID: 0}
-=======
+
 --- !u!1 &1146231246
 GameObject:
   m_ObjectHideFlags: 0
@@ -11670,7 +11670,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
->>>>>>> Stashed changes
+
 --- !u!1 &1160526215
 GameObject:
   m_ObjectHideFlags: 0
