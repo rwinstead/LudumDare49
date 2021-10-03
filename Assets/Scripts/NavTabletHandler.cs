@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SchematicHandler : MonoBehaviour
+public class NavTabletHandler : MonoBehaviour
 {
+    public GameObject gameManagerHolder;
+    public GameManager gManager;
+
     public GameObject btn_ControlRoom;
     public GameObject btn_ReactorRoom;
     public GameObject btn_Mainframe;
     public GameObject btn_UraniumStorage;
     public GameObject btn_CoolantSystem;
     public GameObject btn_WasteDisposal;
-    
+
+    public GameObject alm_ReactorRoom;
+    public GameObject alm_CoolantSystem;
+    public GameObject alm_WasteDisposal;
+    public GameObject alm_UraniumStorage;
+    public GameObject alm_Mainframe;
+
     public GameObject playerIcon;
 
     public string playerCurrentRoom;
@@ -20,6 +29,14 @@ public class SchematicHandler : MonoBehaviour
     public bool transitioning;
     private Animator playerAnimator;
 
+    private string lastAnimationState;
+
+
+    void Awake()
+    {
+
+
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +45,8 @@ public class SchematicHandler : MonoBehaviour
         playerAnimator = playerIcon.GetComponent<Animator>();
         playerCurrentRoom = "ControlRoom";
         playerTargetRoom = "";
-
-        //btn_CoolantSystem.GetComponent<Button>().interactable = false;
+        gManager = gameManagerHolder.GetComponent<GameManager>();
+        playerAnimator.keepAnimatorControllerStateOnDisable = true;
 
     }
 
@@ -42,6 +59,7 @@ public class SchematicHandler : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 {
                     Debug.Log("Switching to Control Room");
+                    gManager.SetRoom(GameManager.Room.ControlRoom);
                     transitioning = false;
                 }
             }
@@ -50,6 +68,7 @@ public class SchematicHandler : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Reactor"))
                 {
                     Debug.Log("Switching to Reactor");
+                    gManager.SetRoom(GameManager.Room.ReactorRoom);
                     transitioning = false;
                 }
             }
@@ -58,6 +77,7 @@ public class SchematicHandler : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Coolant"))
                 {
                     Debug.Log("Switching to Coolant System");
+                    gManager.SetRoom(GameManager.Room.CoolantSystem);
                     transitioning = false;
                 }
             }
@@ -66,6 +86,7 @@ public class SchematicHandler : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Waste"))
                 {
                     Debug.Log("Switching to Waste Disposal Room");
+                    gManager.SetRoom(GameManager.Room.WasteDisposal);
                     transitioning = false;
                 }
             }
@@ -74,6 +95,7 @@ public class SchematicHandler : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Uranium"))
                 {
                     Debug.Log("Switching to Uranium Storage");
+                    gManager.SetRoom(GameManager.Room.UraniumStorage);
                     transitioning = false;
                 }
             }
@@ -82,17 +104,26 @@ public class SchematicHandler : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Mainframe"))
                 {
                     Debug.Log("Switching to Mainframe");
+                    gManager.SetRoom(GameManager.Room.Mainframe);
                     transitioning = false;
                 }
             }
+
+            if (!transitioning)
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+        
         }
+
+
     }
-
-
 
     public void btn_clicked(GameObject button)
     {
+        playerTargetRoom = button.name;
         transitioning = true;
+
 
        btn_ControlRoom.GetComponent<Button>().interactable = false;
        btn_ReactorRoom.GetComponent<Button>().interactable = false;
@@ -103,6 +134,7 @@ public class SchematicHandler : MonoBehaviour
 
         button.GetComponent<Button>().interactable = true;
         button.GetComponent<Button>().Select();
+
 
 
         if (playerCurrentRoom == button.name) 
@@ -303,9 +335,9 @@ public class SchematicHandler : MonoBehaviour
 
     }
 
-    public void OnOpenSchematic()
+    public void OnOpenTablet()
     {
-        // playerCurrentRoom = "";
+        gManager = gameManagerHolder.GetComponent<GameManager>();
 
         btn_ControlRoom.GetComponent<Button>().interactable = true;
         btn_ReactorRoom.GetComponent<Button>().interactable = true;
@@ -313,6 +345,50 @@ public class SchematicHandler : MonoBehaviour
         btn_UraniumStorage.GetComponent<Button>().interactable = true;
         btn_CoolantSystem.GetComponent<Button>().interactable = true;
         btn_WasteDisposal.GetComponent<Button>().interactable = true;
+
+        Debug.Log("Reactor alarm "+gManager.playerCurrentRoom);
+
+        if (gManager.Reactor_alarming == true)
+        {
+            alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Alarming");
+        }
+        else
+        {
+            alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Off");
+        }
+        if (gManager.Coolant_alarming)
+        {
+            alm_CoolantSystem.GetComponent<Animator>().Play("Base Layer.Alarming");
+        }
+        else
+        {
+            alm_CoolantSystem.GetComponent<Animator>().Play("Base Layer.Off");
+        }
+        if (gManager.Waste_alarming)
+        {
+            alm_WasteDisposal.GetComponent<Animator>().Play("Base Layer.Alarming");
+        }
+        else
+        {
+            alm_WasteDisposal.GetComponent<Animator>().Play("Base Layer.Off");
+        }
+        if (gManager.Storage_alarming)
+        {
+            alm_UraniumStorage.GetComponent<Animator>().Play("Base Layer.Alarming");
+        }
+        else
+        {
+            alm_UraniumStorage.GetComponent<Animator>().Play("Base Layer.Off");
+        }
+        if (gManager.Mainframe_alarming)
+        {
+            alm_Mainframe.GetComponent<Animator>().Play("Base Layer.Alarming");
+        }
+        else
+        {
+            alm_Mainframe.GetComponent<Animator>().Play("Base Layer.Off");
+        }
+
 
     }
 }
