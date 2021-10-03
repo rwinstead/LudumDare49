@@ -50,6 +50,10 @@ public class GameManager : MonoBehaviour
     public static Action evt_beginMainframeTask;
     public static Action evt_beginCoolantTask;
     public static Action evt_beginWasteTask;
+    public static Action evt_beginReactorTask;
+
+    public TextMeshPro terminalText;
+    public TextMeshPro terminalText_hacked;
 
     private bool reducingTemp = false;
     private float reductionFactor = 0f;
@@ -82,11 +86,18 @@ public class GameManager : MonoBehaviour
         PipeManager.evt_endCoolantTask += EndCoolantTask;
         MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
         WasteManager.evt_endWasteTask += EndWasteTask;
-
+        ReactorManager.evt_endReactorTask += EndReactorTask;
         StartCoroutine("AccumulateWaste");
         StartCoroutine("DemandStart");
 
         demand = demandList[0];
+    }
+
+
+    private void Start()
+    {
+        terminalText.ForceMeshUpdate();
+        StartCoroutine(typewriter(terminalText,0.03f));
 
     }
 
@@ -170,6 +181,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Begin Mainframe");
         MainframeTaskActive = true;
         evt_beginMainframeTask?.Invoke();
+        terminalText.gameObject.SetActive(false);
+        terminalText_hacked.gameObject.SetActive(true);
+        StartCoroutine(typewriter(terminalText_hacked, 0.005f,100));
     }
 
     public void EndMainframeTask()
@@ -183,6 +197,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Begin Coolant");
         CoolantTaskActive = true;
         evt_beginCoolantTask?.Invoke();
+        StartCoroutine(typewriter(terminalText, 0.03f));
     }
 
     public void EndCoolantTask()
@@ -202,6 +217,19 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End Waste");
         WasteTaskActive = false;
+    }
+
+    public void BeginReactorTask()
+    {
+        Debug.Log("Begin Reactor");
+        ReactorTaskActive = true;
+        evt_beginReactorTask?.Invoke();
+    }
+
+    public void EndReactorTask()
+    {
+        Debug.Log("End Reactor");
+        ReactorTaskActive = false;
     }
 
     public void CalculateData()
@@ -333,5 +361,31 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
+    IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.05f, int startIndex = 0)
+    {
+
+        tmpText.ForceMeshUpdate();
+
+        int totalVisibleCharacters = tmpText.textInfo.characterCount;
+        int counter = startIndex;
+
+        while (true)
+        {
+            int visibleCount = counter % (totalVisibleCharacters + 1);
+
+            tmpText.maxVisibleCharacters = visibleCount;
+
+            counter += 1;
+
+            if(visibleCount >= totalVisibleCharacters)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(speed);
+        }
+    }
+
 
 }

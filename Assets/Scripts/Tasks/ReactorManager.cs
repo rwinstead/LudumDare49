@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,14 @@ public class ReactorManager : MonoBehaviour
 
     public List<Transform> originalRodLocations = new List<Transform>();
 
+    private bool taskActive = false;
+
+    public static Action evt_endReactorTask;
+
+    void Start()
+    {
+        GameManager.evt_beginReactorTask += BeginReactorTask;
+    }
 
     public void IncreaseRodCount()
     {
@@ -77,11 +86,17 @@ public class ReactorManager : MonoBehaviour
         {
             rend.sprite = reactorSymbols[2];
             reactorRend.sprite = reactors[1];
+            if (taskActive)
+            {
+                evt_endReactorTask?.Invoke();
+                taskActive = false;
+            }
+            
         }
 
     }
 
-    public void Reset()
+    public void BeginReactorTask()
     {
         rod1.transform.position = originalRodLocations[0].position;
         rod2.transform.position = originalRodLocations[1].position;
@@ -90,6 +105,7 @@ public class ReactorManager : MonoBehaviour
         rod1.SetActive(false);
         rod2.SetActive(false);
         rod3.SetActive(false);
+        taskActive = true;
     }
 
 
