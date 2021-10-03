@@ -8,8 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     public int radiation = 0;
+    public TextMeshPro radiationText;
+    public RotateGaugeNeedle radiationNeedle;
 
     public int temperature = 0;
+    public TextMeshPro temperatureText;
+    public RotateGaugeNeedle temperatureNeedle;
 
     public int waterflow = 1000;
     public TextMeshPro waterflowText;
@@ -46,6 +50,15 @@ public class GameManager : MonoBehaviour
     public void ActivateShields()
     {
         shieldsActive = true;
+    }
+
+    private void Update()
+    {
+        temperatureText.text = temperature + "°C";
+        temperatureNeedle.num = temperature;
+
+        radiationText.text = radiation + " rads";
+        radiationNeedle.num = radiation;
     }
 
 }
