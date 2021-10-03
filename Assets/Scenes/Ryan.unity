@@ -6865,6 +6865,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrelCount: 0
   barrelGoal: 0
+  barrelPrefab: {fileID: 0}
+  barrelSpawnLoc: {fileID: 0}
 --- !u!1 &759551249
 GameObject:
   m_ObjectHideFlags: 0
@@ -12797,6 +12799,8 @@ MonoBehaviour:
   temperature: 0
   temperatureText: {fileID: 731464634}
   temperatureNeedle: {fileID: 1629851881}
+  tempNoiseFactor: 5
+  radNoiseFactor: 1
   waterflow: 1000
   waterflowText: {fileID: 2024274225}
   leverstate: 1
@@ -12804,11 +12808,11 @@ MonoBehaviour:
   NavTablet: {fileID: 0}
   mainCamera: {fileID: 0}
   playerCurrentRoom: 0
-  Reactor_alarming: 0
-  Coolant_alarming: 0
-  Waste_alarming: 0
-  Storage_alarming: 0
-  Mainframe_alarming: 0
+  ReactorTaskActive: 0
+  CoolantTaskActive: 0
+  WasteTaskActive: 0
+  StorageTaskActive: 0
+  MainframeTaskActive: 0
   cameraAnchor_ControlRoom: {fileID: 0}
   cameraAnchor_ReactorRoom: {fileID: 0}
   cameraAnchor_CoolantSystem: {fileID: 0}
@@ -12989,7 +12993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1793460038
 Transform:
   m_ObjectHideFlags: 0
@@ -13024,6 +13028,8 @@ MonoBehaviour:
   login: {fileID: 1659617350}
   password: {fileID: 798609810}
   wipe: {fileID: 376465206}
+  StickyLogin: {fileID: 0}
+  StickyPassword: {fileID: 0}
   correctLogin: BobbyBoi
   correctPass: RuyLopez
   step1: {fileID: 366794996}
@@ -13239,6 +13245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4365ce4a52c174d834cd2494b7a5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goodPipe: {fileID: 0}
+  badPipe: {fileID: 0}
+  goodPipe_spawnPos: {fileID: 0}
+  badPipe_spawnPos: {fileID: 0}
+  isPipeBroken: 0
 --- !u!1 &1894066728
 GameObject:
   m_ObjectHideFlags: 0

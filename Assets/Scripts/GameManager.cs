@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
     public GameObject NavTablet;
     public Camera mainCamera;
 
-    public enum Room {ControlRoom, ReactorRoom, CoolantSystem, WasteDisposal, UraniumStorage, Mainframe}
-    
+    public enum Room { ControlRoom, ReactorRoom, CoolantSystem, WasteDisposal, UraniumStorage, Mainframe }
+
     public Room playerCurrentRoom = Room.ControlRoom;
 
     public bool ReactorTaskActive = false;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -91,12 +91,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("Open Nav Tablet!");
         NavTablet.SetActive(true);
         NavTablet.GetComponentInChildren<NavTabletHandler>().OnOpenTablet();
-        
+
     }
 
     public void SetRoom(Room newRoom)
     {
-        
+
         Debug.Log("GM Setting Up For " + newRoom);
 
         if (newRoom == Room.ControlRoom)
@@ -134,8 +134,10 @@ public class GameManager : MonoBehaviour
         radiationText.text = radiation + " rads";
         radiationNeedle.num = radiation;
 
-        temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
-        radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
+        CalculateData();
+
+        //temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
+        //radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
         if (radiation < 0) { radiation = 0; }
     }
 
@@ -145,7 +147,7 @@ public class GameManager : MonoBehaviour
         MainframeTaskActive = true;
         evt_beginMainframeTask?.Invoke();
     }
-    
+
     public void EndMainframeTask()
     {
         Debug.Log("End Mainframe");
@@ -177,4 +179,36 @@ public class GameManager : MonoBehaviour
         Debug.Log("End Waste");
         WasteTaskActive = false;
     }
+
+    public void CalculateData()
+    {
+        CalculateTemperature();
+        CalculateRadiation();
+        CalculateOutput();
+    }
+
+    public void CalculateTemperature()
+    {
+        //Target should be ~400 degrees C
+
+        int baseline = (400 + 1000) / waterflow;
+
+        if (leverstate == LeverManager.leverState.Top) baseline += 125;
+        else if (leverstate == LeverManager.leverState.Middle) baseline += 0;
+        else if (leverstate == LeverManager.leverState.Bottom) baseline -= 125;
+
+        temperature = baseline;
+
+    }
+
+    public void CalculateRadiation()
+    {
+
+    }
+
+    public void CalculateOutput()
+    {
+
+    }
+
 }

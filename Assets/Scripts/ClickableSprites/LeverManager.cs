@@ -50,6 +50,8 @@ public class LeverManager : MonoBehaviour
             }
         }
 
+        GameManager.instance.leverstate = leverstate;
+
         UpdateButtonSprite();
 
     }

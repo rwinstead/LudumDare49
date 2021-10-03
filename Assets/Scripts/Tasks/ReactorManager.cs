@@ -42,9 +42,6 @@ public class ReactorManager : MonoBehaviour
     private void Update()
     {
         reactorRend.sprite = reactors[0];
-        rod1.SetActive(false);
-        rod2.SetActive(false);
-        rod3.SetActive(false);
 
         if (storageManager.unitsPickedUp > 0)
         {
@@ -90,6 +87,9 @@ public class ReactorManager : MonoBehaviour
         rod2.transform.position = originalRodLocations[1].position;
         rod3.transform.position = originalRodLocations[2].position;
         activeRodsText.text = "Active rods: 0";
+        rod1.SetActive(false);
+        rod2.SetActive(false);
+        rod3.SetActive(false);
     }
 
 
