@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class MainframeTaskManager : MonoBehaviour
     public GameObject step2;
     public GameObject step3;
 
+    public static Action evt_endMainframeTask;
+
     void Start()
     {
         GameManager.evt_beginMainframeTask += BeginMainframeTask;
@@ -47,6 +50,7 @@ public class MainframeTaskManager : MonoBehaviour
         {
             step2.SetActive(false);
             step3.SetActive(true);
+            evt_endMainframeTask?.Invoke();
         }
     }
 
@@ -56,10 +60,8 @@ public class MainframeTaskManager : MonoBehaviour
         step2.SetActive(false);
         step3.SetActive(false);
 
-        correctLogin = Usernames[Random.Range(0, Usernames.Length)];
-        correctPass = Passwords[Random.Range(0, Passwords.Length)];
-
-        Debug.Log(correctLogin);
+        correctLogin = Usernames[UnityEngine.Random.Range(0, Usernames.Length)];
+        correctPass = Passwords[UnityEngine.Random.Range(0, Passwords.Length)];
 
         StickyLogin.SetText(correctLogin);
         StickyPassword.SetText(correctPass);

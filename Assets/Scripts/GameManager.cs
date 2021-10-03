@@ -8,13 +8,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public int radiation = 0;
+    public int radiation = 20;
     public TextMeshPro radiationText;
     public RotateGaugeNeedle radiationNeedle;
 
-    public int temperature = 0;
+    public int temperature = 500;
     public TextMeshPro temperatureText;
     public RotateGaugeNeedle temperatureNeedle;
+
+    public int tempNoiseFactor = 5;
+    public int radNoiseFactor = 1;
 
     public int waterflow = 1000;
     public TextMeshPro waterflowText;
@@ -36,6 +39,12 @@ public class GameManager : MonoBehaviour
     public bool Storage_alarming = false;
     public bool Mainframe_alarming = false;
 
+    public bool ReactorTaskActive = false;
+    public bool CoolantTaskActive = false;
+    public bool WasteTaskActive = false;
+    public bool StorageTaskActive = false;
+    public bool MainframeTaskActive = false;
+
     public GameObject cameraAnchor_ControlRoom;
     public GameObject cameraAnchor_ReactorRoom;
     public GameObject cameraAnchor_CoolantSystem;
@@ -45,6 +54,8 @@ public class GameManager : MonoBehaviour
 
 
     public static Action evt_beginMainframeTask;
+    public static Action evt_beginCoolantTask;
+    public static Action evt_beginWasteTask;
 
     private void Awake()
     {
@@ -57,6 +68,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        PipeManager.evt_endCoolantTask += EndCoolantTask;
+        MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
+        WasteManager.evt_endWasteTask += EndWasteTask;
+
     }
 
     public void IncreaseWaterFlow()
@@ -123,11 +139,50 @@ public class GameManager : MonoBehaviour
 
         radiationText.text = radiation + " rads";
         radiationNeedle.num = radiation;
+
+
+
+        temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
+        radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
+        if (radiation < 0) { radiation = 0};
     }
 
     public void BeginMainframeTask()
     {
         Debug.Log("Begin Mainframe");
+        MainframeTaskActive = true;
         evt_beginMainframeTask?.Invoke();
+    }
+    
+    public void EndMainframeTask()
+    {
+        Debug.Log("End Mainframe");
+        MainframeTaskActive = false;
+    }
+
+    public void BeginCoolantTask()
+    {
+        Debug.Log("Begin Coolant");
+        CoolantTaskActive = true;
+        evt_beginCoolantTask?.Invoke();
+    }
+
+    public void EndCoolantTask()
+    {
+        Debug.Log("End Coolant");
+        CoolantTaskActive = false;
+    }
+
+    public void BeginWasteTask()
+    {
+        Debug.Log("Begin Waste");
+        WasteTaskActive = true;
+        evt_beginWasteTask?.Invoke();
+    }
+
+    public void EndWasteTask()
+    {
+        Debug.Log("End Waste");
+        WasteTaskActive = false;
     }
 }

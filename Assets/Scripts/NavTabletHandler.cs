@@ -348,7 +348,7 @@ public class NavTabletHandler : MonoBehaviour
 
         Debug.Log("Reactor alarm "+gManager.playerCurrentRoom);
 
-        if (gManager.Reactor_alarming == true)
+        if (gManager.ReactorTaskActive)
         {
             alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Alarming");
         }
@@ -356,7 +356,7 @@ public class NavTabletHandler : MonoBehaviour
         {
             alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Off");
         }
-        if (gManager.Coolant_alarming)
+        if (gManager.CoolantTaskActive)
         {
             alm_CoolantSystem.GetComponent<Animator>().Play("Base Layer.Alarming");
         }
@@ -364,7 +364,7 @@ public class NavTabletHandler : MonoBehaviour
         {
             alm_CoolantSystem.GetComponent<Animator>().Play("Base Layer.Off");
         }
-        if (gManager.Waste_alarming)
+        if (gManager.WasteTaskActive)
         {
             alm_WasteDisposal.GetComponent<Animator>().Play("Base Layer.Alarming");
         }
@@ -372,7 +372,7 @@ public class NavTabletHandler : MonoBehaviour
         {
             alm_WasteDisposal.GetComponent<Animator>().Play("Base Layer.Off");
         }
-        if (gManager.Storage_alarming)
+        if (gManager.StorageTaskActive)
         {
             alm_UraniumStorage.GetComponent<Animator>().Play("Base Layer.Alarming");
         }
@@ -380,7 +380,7 @@ public class NavTabletHandler : MonoBehaviour
         {
             alm_UraniumStorage.GetComponent<Animator>().Play("Base Layer.Off");
         }
-        if (gManager.Mainframe_alarming)
+        if (gManager.MainframeTaskActive)
         {
             alm_Mainframe.GetComponent<Animator>().Play("Base Layer.Alarming");
         }
