@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
     public static Action evt_beginWasteTask;
     public static Action evt_beginReactorTask;
 
-    public TextMeshPro terminalText;
-    public TextMeshPro terminalText_hacked;
+    public GameObject TerminalManagerHolder;
+    private TerminalManager Terminal;
 
     private bool reducingTemp = false;
     private float reductionFactor = 0f;
@@ -86,10 +86,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        Terminal = TerminalManagerHolder.GetComponent<TerminalManager>();
+
         PipeManager.evt_endCoolantTask += EndCoolantTask;
         MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
         WasteManager.evt_endWasteTask += EndWasteTask;
         ReactorManager.evt_endReactorTask += EndReactorTask;
+        
         StartCoroutine("AccumulateWaste");
         StartCoroutine("DemandStart");
 
@@ -99,8 +102,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        terminalText.ForceMeshUpdate();
-        StartCoroutine(typewriter(terminalText,0.03f));
 
     }
 
@@ -184,17 +185,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("Begin Mainframe");
         MainframeTaskActive = true;
         evt_beginMainframeTask?.Invoke();
-        terminalText.gameObject.SetActive(false);
-        terminalText_hacked.gameObject.SetActive(true);
-        StartCoroutine(typewriter(terminalText_hacked, 0.005f,100));
     }
 
     public void EndMainframeTask()
     {
         Debug.Log("End Mainframe");
         MainframeTaskActive = false;
-        terminalText.gameObject.SetActive(true);
-        terminalText_hacked.gameObject.SetActive(false);
+        
     }
 
     public void BeginCoolantTask()
@@ -368,31 +365,6 @@ public class GameManager : MonoBehaviour
                 //game won?
             }
 
-        }
-    }
-
-    IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.05f, int startIndex = 0)
-    {
-
-        tmpText.ForceMeshUpdate();
-
-        int totalVisibleCharacters = tmpText.textInfo.characterCount;
-        int counter = startIndex;
-
-        while (true)
-        {
-            int visibleCount = counter % (totalVisibleCharacters + 1);
-
-            tmpText.maxVisibleCharacters = visibleCount;
-
-            counter += 1;
-
-            if(visibleCount >= totalVisibleCharacters)
-            {
-                break;
-            }
-
-            yield return new WaitForSeconds(speed);
         }
     }
 
