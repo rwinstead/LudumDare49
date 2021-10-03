@@ -11,12 +11,26 @@ public class MainframeTaskManager : MonoBehaviour
 
     public TMP_InputField wipe;
 
+    public TMP_Text StickyLogin;
+    public TMP_Text StickyPassword;
+
     public string correctLogin = null;
     public string correctPass = null;
+
+    private string[] Usernames = new string[] { "BobbyBoi", "JimBob3", "Maurice_Moss", "RuyLopez", "MelonLord", "twinkle.toes" };
+    private string[] Passwords = new string[] { "ihatePasswrds", "iLuvChickn", "Potatoads87!", "Password123", "LudenDare49" };
 
     public GameObject step1;
     public GameObject step2;
     public GameObject step3;
+
+    void Start()
+    {
+        GameManager.evt_beginMainframeTask += BeginMainframeTask;
+
+        BeginMainframeTask();
+
+    }
 
     public void checkCredentials()
     {
@@ -34,6 +48,25 @@ public class MainframeTaskManager : MonoBehaviour
             step2.SetActive(false);
             step3.SetActive(true);
         }
+    }
+
+    public void BeginMainframeTask()
+    {
+        step1.SetActive(true);
+        step2.SetActive(false);
+        step3.SetActive(false);
+
+        correctLogin = Usernames[Random.Range(0, Usernames.Length)];
+        correctPass = Passwords[Random.Range(0, Passwords.Length)];
+
+        Debug.Log(correctLogin);
+
+        StickyLogin.SetText(correctLogin);
+        StickyPassword.SetText(correctPass);
+
+
+
+
     }
 
 }

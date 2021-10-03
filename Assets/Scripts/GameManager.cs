@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour
     public GameObject cameraAnchor_UraniumStorage;
     public GameObject cameraAnchor_Mainframe;
 
+
+    public static Action evt_beginMainframeTask;
 
     private void Awake()
     {
@@ -122,4 +125,9 @@ public class GameManager : MonoBehaviour
         radiationNeedle.num = radiation;
     }
 
+    public void BeginMainframeTask()
+    {
+        Debug.Log("Begin Mainframe");
+        evt_beginMainframeTask?.Invoke();
+    }
 }
