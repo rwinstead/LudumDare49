@@ -51,6 +51,22 @@ public class GameManager : MonoBehaviour
     public static Action evt_beginCoolantTask;
     public static Action evt_beginWasteTask;
 
+    private bool reducingTemp = false;
+    private float reductionFactor = 0f;
+
+    public Transform outputBar;
+    public Transform demandBar;
+
+    public int output;
+    public int demand;
+
+    public int wasteBuildupTime = 25;
+    public int wasteBarrels = 0;
+
+    public List<int> demandList = new List<int>();
+    public int DemandChangeTime = 15;
+    public int demandIndex = 0;
+
     private void Awake()
     {
         if (instance == null)
@@ -67,6 +83,11 @@ public class GameManager : MonoBehaviour
         MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
         WasteManager.evt_endWasteTask += EndWasteTask;
 
+        StartCoroutine("AccumulateWaste");
+        StartCoroutine("DemandStart");
+
+        demand = demandList[0];
+
     }
 
     public void IncreaseWaterFlow()
@@ -77,8 +98,11 @@ public class GameManager : MonoBehaviour
 
     public void DecreaseWaterFlow()
     {
-        waterflow -= 100;
-        waterflowText.text = waterflow + " m^3/s";
+        if(waterflow >100)
+        {
+            waterflow -= 100;
+            waterflowText.text = waterflow + " m^3/s";
+        }
     }
 
     public void ActivateShields()
@@ -185,30 +209,129 @@ public class GameManager : MonoBehaviour
         CalculateTemperature();
         CalculateRadiation();
         CalculateOutput();
+        CaclulateFinalDemand();
     }
 
     public void CalculateTemperature()
     {
         //Target should be ~400 degrees C
 
-        int baseline = (400 + 1000) / waterflow;
+        int baseline = (450 * 1000) / waterflow;
 
         if (leverstate == LeverManager.leverState.Top) baseline += 125;
         else if (leverstate == LeverManager.leverState.Middle) baseline += 0;
         else if (leverstate == LeverManager.leverState.Bottom) baseline -= 125;
 
+        baseline = baseline - Mathf.FloorToInt(baseline * reductionFactor);
+
         temperature = baseline;
 
+        if(!ReactorTaskActive)
+        {
+            reducingTemp = false;
+            reductionFactor = 0;
+            CancelInvoke();
+        }
+
+        if(ReactorTaskActive && !reducingTemp)
+        {
+            reducingTemp = true;
+            InvokeRepeating("ReduceTemp", 0, 3);
+        }
+
+    }
+
+    void ReduceTemp()
+    {
+        reductionFactor += .05f; 
     }
 
     public void CalculateRadiation()
     {
+        int baseline = 1 + wasteBarrels * 20;
 
+        if (leverstate == LeverManager.leverState.Top) baseline += 35;
+        else if (leverstate == LeverManager.leverState.Middle) baseline += 0;
+        else if (leverstate == LeverManager.leverState.Bottom) baseline -= 35;
+
+        if (shieldsActive) baseline = 0;
+
+        radiation = baseline;
     }
 
     public void CalculateOutput()
     {
+        int baseline = (temperature * 5) / 2;
+        output = baseline;
 
+        int outputMin = 1;
+        int outputMax = 2500;
+        float maxBarScale = 0.62f;
+        float minBarScale = .05f;
+
+        if (output > 2500) output = 2500;
+
+        float ratio = Remap(output, outputMin, outputMax, minBarScale, maxBarScale);
+
+        outputBar.localScale = new Vector3(ratio, outputBar.localScale.y, outputBar.localScale.z);
+
+    }
+
+    void CaclulateFinalDemand()
+    {
+        int baseline = demand;
+
+        int demandMin = 1;
+        int demandMax = 2500;
+
+        float maxBarScale = 0.62f;
+        float minBarScale = .05f;
+
+        float ratio = Remap(demand, demandMin, demandMax, minBarScale, maxBarScale);
+
+        demandBar.localScale = new Vector3(ratio, outputBar.localScale.y, outputBar.localScale.z);
+    }
+
+    public float Remap(float from, float fromMin, float fromMax, float toMin, float toMax)
+    {
+        var fromAbs = from - fromMin;
+        var fromMaxAbs = fromMax - fromMin;
+
+        var normal = fromAbs / fromMaxAbs;
+
+        var toMaxAbs = toMax - toMin;
+        var toAbs = toMaxAbs * normal;
+
+        var to = toAbs + toMin;
+
+        return to;
+    }
+
+    IEnumerator AccumulateWaste()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(wasteBuildupTime);
+            wasteBarrels += 1;
+        }
+    }
+    IEnumerator DemandStart()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(DemandChangeTime);
+            if (demandIndex != demandList.Count - 1)
+            {
+                demandIndex++;
+                demand = demandList[demandIndex];
+            }
+
+            else
+            {
+                //game won?
+            }
+
+        }
     }
 
 }
