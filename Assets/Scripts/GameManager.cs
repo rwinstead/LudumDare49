@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
     public List<int> demandList = new List<int>();
     public int DemandChangeTime = 15;
     public int demandIndex = 0;
+
+    public UnityEvent spawnWasteBarrel;
 
     private void Awake()
     {
@@ -342,6 +345,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(wasteBuildupTime);
             wasteBarrels += 1;
+            spawnWasteBarrel?.Invoke();
         }
     }
     IEnumerator DemandStart()

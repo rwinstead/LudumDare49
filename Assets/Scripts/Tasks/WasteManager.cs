@@ -14,6 +14,10 @@ public class WasteManager : MonoBehaviour
     
     public static Action evt_endWasteTask;
 
+    public List<GameObject> barrels = new List<GameObject>();
+
+    private int barrelIndex = 0;
+
     void Start()
     {
         GameManager.evt_beginWasteTask += BeginWasteTask;
@@ -23,7 +27,8 @@ public class WasteManager : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Barrel"))
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<ResetBarrelPos>().resetPos();
+            collision.gameObject.SetActive(false);
             barrelCount--;
             if(barrelCount == 0)
             {
@@ -32,9 +37,29 @@ public class WasteManager : MonoBehaviour
         }
     }
 
+    public void spawnBarrel()
+    {   if (barrelIndex < barrels.Count)
+        {
+            if(barrels[barrelIndex].activeSelf)
+            {
+                barrelIndex++;
+                spawnBarrel();
+            }
+
+            else
+            {
+                barrels[barrelIndex].SetActive(true);
+                barrelIndex++;
+            }
+
+            if (barrelIndex > 9) barrelIndex = 0;
+               
+        }
+    }
+
     public void BeginWasteTask()
     {
-        Instantiate<GameObject>(barrelPrefab, barrelSpawnLoc.transform.position, Quaternion.identity);
-        barrelCount++;
+        //Instantiate<GameObject>(barrelPrefab, barrelSpawnLoc.transform.position, Quaternion.identity);
+        //barrelCount++;
     }
 }
