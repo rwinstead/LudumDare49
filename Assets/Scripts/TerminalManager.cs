@@ -16,6 +16,8 @@ public class TerminalManager : MonoBehaviour
     public GameObject gameManagerHolder;
     private GameManager gManager = GameManager.instance;
 
+    public int numAlerts;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +64,22 @@ public class TerminalManager : MonoBehaviour
         terminalText.gameObject.SetActive(false);
         terminalText_hacked.gameObject.SetActive(true);
         StartCoroutine(typewriter(terminalText_hacked, 0.005f, 100));
+    }
+
+    void updatePanel()
+    {
+        numAlerts = 0;
+
+        if (gManager.ReactorTaskActive) { numAlerts++; }
+        if (gManager.CoolantTaskActive) { numAlerts++; }
+        if (gManager.WasteTaskActive) { numAlerts++; }
+        if (gManager.StorageTaskActive) { numAlerts++; }
+        if (gManager.MainframeTaskActive) { numAlerts++; }
+
+        if (numAlerts > 0)
+        {
+
+        }
     }
 
     IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.05f, int startIndex = 0)
