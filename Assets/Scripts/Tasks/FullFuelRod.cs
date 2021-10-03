@@ -9,7 +9,7 @@ public class FullFuelRod : MonoBehaviour
     private void OnMouseDown()
     {
         storageManager.PickedUpUnit();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
  
