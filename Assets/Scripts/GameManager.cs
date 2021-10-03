@@ -166,6 +166,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End Mainframe");
         MainframeTaskActive = false;
+        terminalText.gameObject.SetActive(true);
+        terminalText_hacked.gameObject.SetActive(false);
     }
 
     public void BeginCoolantTask()
@@ -173,7 +175,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Begin Coolant");
         CoolantTaskActive = true;
         evt_beginCoolantTask?.Invoke();
-        StartCoroutine(typewriter(terminalText, 0.03f));
     }
 
     public void EndCoolantTask()
