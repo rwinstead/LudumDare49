@@ -16734,6 +16734,8 @@ MonoBehaviour:
   cameraAnchor_WasteDisposal: {fileID: 884721789}
   cameraAnchor_UraniumStorage: {fileID: 1534390214}
   cameraAnchor_Mainframe: {fileID: 1959039379}
+  terminalText: {fileID: 710910425}
+  terminalText_hacked: {fileID: 1395134531}
   outputBar: {fileID: 1509033722}
   demandBar: {fileID: 1496463877}
   output: 0
@@ -16743,10 +16745,6 @@ MonoBehaviour:
   demandList: 38040000b004000014050000dc0500007805000008070000
   DemandChangeTime: 2
   demandIndex: 0
-
-  terminalText: {fileID: 710910425}
-  terminalText_hacked: {fileID: 1395134531}
-
 --- !u!4 &1765471840
 Transform:
   m_ObjectHideFlags: 0
