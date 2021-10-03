@@ -33,12 +33,6 @@ public class GameManager : MonoBehaviour
     
     public Room playerCurrentRoom = Room.ControlRoom;
 
-    public bool Reactor_alarming = false;
-    public bool Coolant_alarming = false;
-    public bool Waste_alarming = false;
-    public bool Storage_alarming = false;
-    public bool Mainframe_alarming = false;
-
     public bool ReactorTaskActive = false;
     public bool CoolantTaskActive = false;
     public bool WasteTaskActive = false;
@@ -139,8 +133,6 @@ public class GameManager : MonoBehaviour
 
         radiationText.text = radiation + " rads";
         radiationNeedle.num = radiation;
-
-
 
         temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
         radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
