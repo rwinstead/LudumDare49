@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
 
         temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
         radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
-        if (radiation < 0) { radiation = 0};
+        if (radiation < 0) { radiation = 0; }
     }
 
     public void BeginMainframeTask()
