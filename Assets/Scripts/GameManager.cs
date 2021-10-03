@@ -22,6 +22,16 @@ public class GameManager : MonoBehaviour
 
     public bool shieldsActive = false;
 
+
+    public string playerCurrentRoom = "Control Room";
+
+    public bool Reactor_alarming = false;
+    public bool Coolant_alarming = false;
+    public bool Waste_alarming = false;
+    public bool Storage_alarming = false;
+    public bool Mainframe_alarming = false;
+
+
     private void Awake()
     {
         if(instance == null)

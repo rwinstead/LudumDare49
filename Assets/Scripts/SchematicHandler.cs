@@ -15,35 +15,105 @@ public class SchematicHandler : MonoBehaviour
     public GameObject playerIcon;
 
     public string playerCurrentRoom;
+    public string playerTargetRoom;
+
+    public bool transitioning;
+    private Animator playerAnimator;
+
 
     // Start is called before the first frame update
     void Start()
     {
         btn_ControlRoom.GetComponent<Button>().Select();
+        playerAnimator = playerIcon.GetComponent<Animator>();
         playerCurrentRoom = "ControlRoom";
+        playerTargetRoom = "";
 
         //btn_CoolantSystem.GetComponent<Button>().interactable = false;
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (transitioning)
+        {
+            if (playerTargetRoom == "ControlRoom")
+            {
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+                {
+                    Debug.Log("Switching to Control Room");
+                    transitioning = false;
+                }
+            }
+            if (playerTargetRoom == "ReactorRoom")
+            {
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Reactor"))
+                {
+                    Debug.Log("Switching to Reactor");
+                    transitioning = false;
+                }
+            }
+            if (playerTargetRoom == "CoolantSystem")
+            {
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Coolant"))
+                {
+                    Debug.Log("Switching to Coolant System");
+                    transitioning = false;
+                }
+            }
+            if (playerTargetRoom == "WasteDisposal")
+            {
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Waste"))
+                {
+                    Debug.Log("Switching to Waste Disposal Room");
+                    transitioning = false;
+                }
+            }
+            if (playerTargetRoom == "UraniumStorage")
+            {
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Uranium"))
+                {
+                    Debug.Log("Switching to Uranium Storage");
+                    transitioning = false;
+                }
+            }
+            if (playerTargetRoom == "Mainframe")
+            {
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Mainframe"))
+                {
+                    Debug.Log("Switching to Mainframe");
+                    transitioning = false;
+                }
+            }
+        }
     }
+
 
 
     public void btn_clicked(GameObject button)
     {
-        print(button.name);
+        transitioning = true;
 
-        if(playerCurrentRoom == button.name) 
+       btn_ControlRoom.GetComponent<Button>().interactable = false;
+       btn_ReactorRoom.GetComponent<Button>().interactable = false;
+       btn_Mainframe.GetComponent<Button>().interactable = false;
+       btn_UraniumStorage.GetComponent<Button>().interactable = false;
+       btn_CoolantSystem.GetComponent<Button>().interactable = false;
+       btn_WasteDisposal.GetComponent<Button>().interactable = false;
+
+        button.GetComponent<Button>().interactable = true;
+        button.GetComponent<Button>().Select();
+
+
+        if (playerCurrentRoom == button.name) 
         { 
             Debug.Log("Player already in that room."); 
         }
         else 
-        { 
+        {
+            playerTargetRoom = button.name;
             Debug.Log("Player moving to " + button.name);
+
         
             if (playerCurrentRoom == "ControlRoom")
             {
@@ -233,4 +303,16 @@ public class SchematicHandler : MonoBehaviour
 
     }
 
+    public void OnOpenSchematic()
+    {
+        // playerCurrentRoom = "";
+
+        btn_ControlRoom.GetComponent<Button>().interactable = true;
+        btn_ReactorRoom.GetComponent<Button>().interactable = true;
+        btn_Mainframe.GetComponent<Button>().interactable = true;
+        btn_UraniumStorage.GetComponent<Button>().interactable = true;
+        btn_CoolantSystem.GetComponent<Button>().interactable = true;
+        btn_WasteDisposal.GetComponent<Button>().interactable = true;
+
+    }
 }
