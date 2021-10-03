@@ -17319,7 +17319,7 @@ MonoBehaviour:
   demandBar: {fileID: 1496463877}
   output: 0
   demand: 0
-  wasteBuildupTime: 1
+  wasteBuildupTime: 5
   wasteBarrels: 0
   demandList: 38040000b004000014050000dc0500007805000008070000
   DemandChangeTime: 2

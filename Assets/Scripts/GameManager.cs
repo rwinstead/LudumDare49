@@ -344,8 +344,12 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(wasteBuildupTime);
-            wasteBarrels += 1;
-            spawnWasteBarrel?.Invoke();
+            if (!(wasteBarrels >= 10))
+            {
+                wasteBarrels += 1;
+                spawnWasteBarrel?.Invoke();
+            }
+
         }
     }
     IEnumerator DemandStart()
