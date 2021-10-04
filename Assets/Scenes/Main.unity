@@ -14143,7 +14143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.15, y: -0.1}
+  m_AnchoredPosition: {x: -0.09, y: -0.1}
   m_SizeDelta: {x: 6.068, y: 1.294}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313373449
@@ -14166,7 +14166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Water Flow
+  m_text: Coolant Flow
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0d8da90335157bd44b0a94e616b6fafd, type: 2}
   m_sharedMaterial: {fileID: -8513634314295034038, guid: 0d8da90335157bd44b0a94e616b6fafd, type: 2}
@@ -14868,6 +14868,7 @@ MonoBehaviour:
   monitorAlarm: {fileID: 1027869189}
   gameManagerHolder: {fileID: 1765471838}
   numAlerts: 0
+  checker: {fileID: 1765471841}
 --- !u!61 &1399774944
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18689,7 +18690,8 @@ MonoBehaviour:
   DemandChangeTime: 30
   demandIndex: 0
   winScreen: {fileID: 1864230292}
-  taskTime: 45
+  taskTime: 40
+  outputBarSprite: {fileID: 1509033723}
   demandList: 38040000b004000014050000dc050000780500004006000072060000a4060000080700003a070000
   TaskList:
   - Mainframe
@@ -18732,7 +18734,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765471838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 031bc991d47f0894583b8ad5f7f8207b, type: 3}
   m_Name: 

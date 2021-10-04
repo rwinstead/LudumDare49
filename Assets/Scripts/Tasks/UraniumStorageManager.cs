@@ -15,6 +15,11 @@ public class UraniumStorageManager : MonoBehaviour
         GameManager.evt_beginReactorTask += BeginReactorTask;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.evt_beginReactorTask -= BeginReactorTask;
+    }
+
     public void PickedUpUnit()
     {
         unitsPickedUp++;

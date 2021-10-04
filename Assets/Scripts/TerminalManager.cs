@@ -21,6 +21,8 @@ public class TerminalManager : MonoBehaviour
     private bool tutorialFinished = false;
     private int tutorialScreen = 0;
 
+    public CheckForLoss checker;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,8 @@ public class TerminalManager : MonoBehaviour
         PipeManager.evt_endCoolantTask -= updatePanel;
         WasteManager.evt_endWasteTask -= updatePanel;
         MainframeTaskManager.evt_endMainframeTask -= EndMainframeTask;
+
+        //tutorialScreen = -1;
     }
 
     // Update is called once per frame
@@ -112,13 +116,13 @@ public class TerminalManager : MonoBehaviour
 
         if (!tutorialFinished)
         {
-            if (tutorialScreen == 0) { textBlock = "You have 2 New Messages: \n\nHey! It's been quiet today, so we all decided to go home early. What could go wrong? The reactor is stable and should be fine on it's own, but if anything breaks you'll have to fix it yourself. Hope you don't mind. Oh, and please try not to blow anything up.\n\nManagement                                                                     Click to continue..."; }
-            if (tutorialScreen == 1) { textBlock = "They did WHAT? I TOLD THEM the new guy was starting today! Ugh, those morons never listen.\nLook, I'm sure it'll be fine, I'll run you though the basics. \n\n\n\n\nClick to continue..."; }
-            if (tutorialScreen == 2) { textBlock = "See that panel in the top left? You want to match your output to demand as close as possible. Produce too much power and you'll fry the substation.  Produce too little and you'll cause a blackout. \n\n\n\n\nClick to continue..."; }
-            if (tutorialScreen == 3) { textBlock = "Use the buttons on the right to regulate the coolant flow.  Too cold and the reactor will shut down, too hot and it'll go into meltdown. \n\n\n\n\nClick to continue..."; }
-            if (tutorialScreen == 4) { textBlock = "Use the lever on the left to control the output of the reactor.  Just be careful not to let radiation levels too high.  \n\n\n\n\nClick to continue..."; }
-            if (tutorialScreen == 5) { textBlock = "If that happens use the button to raise your radiation shielding, but you can only use it once so it's for emergencies only.  \n\n\n\n\nClick to continue..."; }
-            if (tutorialScreen == 6) { textBlock = "All the other systems in the plant are automated so that should be about it.  Although if something does break down use the tablet on the desk to navigate the plant. \n\nYour replacement will be there in 10 hours!  I'm sure you'll do fine."; }
+            if (tutorialScreen == 0) { textBlock = "You have 1 New Message: \n\nWelcome to your first night at the factory! Things have been totallyyyy stable around here so things should be a breeze.\n\n\nClick to continue..."; }
+            if (tutorialScreen == 1) { textBlock = "But she's an old plant, and things do, very ocassionally, go wrong. Just to be sure, I'll run you though the basics. \n\n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 2) { textBlock = "See that panel in the top left? You need to make sure your output is always meeting demand. Demand changes throughout the night, so make sure you're comfortably clear. It'll turn red if things are going south. \n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 3) { textBlock = "At the bottom is your control console. That's where the magic happens. Use the arrows on the right to regulate the coolant flow. Less coolant flow means hotter temperatures. Hotter temps means more output power. Go ahead and play with them. \n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 4) { textBlock = "However! If things get too hot, well, she'll blow. Kabloowie. Make sure that doesn't happen by keeping an eye on the temperature gauge in the top right of the screen. \n\nNow that lever there on the left of the control panel raises and lowers the control rods. When lowered, control rods lessen radiation, but they also decrease power output. Try 'er out.\n\nClick to continue..."; }
+            if (tutorialScreen == 5) { textBlock = "Oh, right. Radiation. Bad stuff. It creeps up as the plant creates waste. Make sure to go to the waste disposal room and dump the trash if your radiation meter is getting high. If shit totally hits the fan, slam the Shields button there. It'll cut the radiation completely for 10 seconds, but you can only use it once so it's for emergencies only.  \n\n\nClick to continue..."; }
+            if (tutorialScreen == 6) { textBlock = "To navigate the plant, click on the tablet in the bottom right. If anything goes wrong, you'll need to travel there and fix it yourself. \n\nWell, that's all I've got for you. You're on the clock now. Your replacement will be there in 10 hours! I'm sure you'll do just dandy. \n\n**End of Message.**"; }
             if (tutorialScreen == 6)
             {
                 tutorialFinished = true;
@@ -135,7 +139,7 @@ public class TerminalManager : MonoBehaviour
                 monitorAlarm.GetComponent<Animator>().Play("Base Layer.Alarming");
                 textBlock = "************************ WARNING: " + numAlerts + " Plant automation systems are offline. **************************\n\n";
 
-                if (gManager.ReactorTaskActive) { textBlock += " * Reactor is running low on fuel.  Acquire from storage and refuel the reactor.\n"; }
+                if (gManager.ReactorTaskActive) { textBlock += " * Reactor is running low on fuel and core temperature is plummeting. First, acquire fuel from uranium storage room, and then refuel the in reactor.\n"; }
                 if (gManager.CoolantTaskActive) { textBlock += " * A pipe in the Coolant System has broken, it must be replaced.\n"; }
                 if (gManager.WasteTaskActive) { textBlock += " * Waste Buildup is causing dangerous levels of radiation, dispose of waste immediately.\n"; }
                 if (gManager.StorageTaskActive) { textBlock += "This shouldn't even happen."; }
@@ -183,9 +187,11 @@ public class TerminalManager : MonoBehaviour
 
     IEnumerator tutorialFinishedDelay()
     {
+        checker.enabled = true;
         GameManager.instance.TutorialCleared();
         yield return new WaitForSeconds(20f);
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        GameManager.instance.StartTasks();
         //gManager.BeginCoolantTask();
     }
 }

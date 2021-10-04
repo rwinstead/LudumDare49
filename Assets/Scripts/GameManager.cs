@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
 
     public int taskTime = 35;
 
+    public SpriteRenderer outputBarSprite;
+
     public List<int> demandList = new List<int>();
 
     public List<string> TaskList = new List<string>();
@@ -115,7 +117,6 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine("AccumulateWaste");
         StartCoroutine("DemandStart");
-        StartCoroutine("FireTask");
     }
 
     public void IncreaseWaterFlow()
@@ -200,6 +201,17 @@ public class GameManager : MonoBehaviour
         {
             BeginWasteTask();
         }
+
+        if(demand - output >= 199)
+        {
+            outputBarSprite.color = new Color32(255, 59, 47, 255);
+        }
+
+        else
+        {
+            outputBarSprite.color = new Color32(62, 248, 73, 255);
+        }
+
 
     }
 
@@ -288,7 +300,7 @@ public class GameManager : MonoBehaviour
         if(ReactorTaskActive && !reducingTemp)
         {
             reducingTemp = true;
-            InvokeRepeating("ReduceTemp", 0, 3);
+            InvokeRepeating("ReduceTemp", 0, 6);
         }
 
     }
@@ -409,7 +421,7 @@ public class GameManager : MonoBehaviour
             TaskList.Add("Coolant");
         }
 
-        int task = UnityEngine.Random.Range(0, TaskList.Count - 1);
+        int task = UnityEngine.Random.Range(0, TaskList.Count);
 
         if (TaskList[task] == "Mainframe") BeginMainframeTask();
         else if (TaskList[task] == "Reactor") BeginCoolantTask();
@@ -424,6 +436,18 @@ public class GameManager : MonoBehaviour
         shieldsUsed = true;
         yield return new WaitForSeconds(10);
         shieldsActive = false;
+    }
+
+    public void StartTasks()
+    {
+        BeginCoolantTask();
+        StartCoroutine("TasksDelay");
+    }
+
+    IEnumerator TasksDelay()
+    {
+        yield return new WaitForSeconds(10);
+        StartCoroutine("FireTask");
     }
 
 }
