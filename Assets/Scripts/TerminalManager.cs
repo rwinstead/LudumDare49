@@ -108,7 +108,7 @@ public class TerminalManager : MonoBehaviour
     public void showCredits()
     {
         StopAllCoroutines();
-        string textBlock = "This game was built in 72 hours for Ludum Dare 49 in Oct 2021 \n\n Contributors:\n Ryan Winstead\n Josh Todd\n\nThanks for Playing!";
+        string textBlock = " This game was built in 72 hours for Ludum Dare 49 in Oct 2021 \n\n Contributors:\n Ryan Winstead and Josh Todd\n\n Music is 'Together We Are Stronger' by Komiku under CC0\n Thanks for Playing!";
         terminalText.SetText(textBlock);
         StartCoroutine(typewriter(terminalText, 0, 0, false));
     }
