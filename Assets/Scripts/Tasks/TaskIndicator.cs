@@ -33,6 +33,16 @@ public class TaskIndicator : MonoBehaviour
         
     }
 
+    private void OnDestroy()
+    {
+        GameManager.evt_beginReactorTask -= taskActive;
+        ReactorManager.evt_endReactorTask -= taskCompleted;
+        GameManager.evt_beginCoolantTask -= taskActive;
+        PipeManager.evt_endCoolantTask -= taskCompleted;
+        GameManager.evt_beginWasteTask -= taskActive;
+        WasteManager.evt_endWasteTask -= taskCompleted;
+    }
+
     // Update is called once per frame
 
     public void taskActive()

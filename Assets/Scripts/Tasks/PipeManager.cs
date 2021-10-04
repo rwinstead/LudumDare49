@@ -19,9 +19,13 @@ public class PipeManager : MonoBehaviour
     void Start()
     {
         GameManager.evt_beginCoolantTask += BeginCoolantTask;
-
-
     }
+
+    private void OnDestroy()
+    {
+        GameManager.evt_beginCoolantTask -= BeginCoolantTask;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Pipe"))

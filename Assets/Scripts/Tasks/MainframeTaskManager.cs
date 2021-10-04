@@ -35,6 +35,11 @@ public class MainframeTaskManager : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        GameManager.evt_beginMainframeTask -= BeginMainframeTask;
+    }
+
     public void checkCredentials()
     {
         if (login.text == correctLogin && password.text == correctPass)

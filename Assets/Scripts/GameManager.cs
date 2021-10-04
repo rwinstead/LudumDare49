@@ -99,18 +99,23 @@ public class GameManager : MonoBehaviour
         MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
         WasteManager.evt_endWasteTask += EndWasteTask;
         ReactorManager.evt_endReactorTask += EndReactorTask;
-        
-        StartCoroutine("AccumulateWaste");
-        StartCoroutine("DemandStart");
-        StartCoroutine("FireTask");
 
         demand = demandList[0];
     }
 
-
-    private void Start()
+    private void OnDestroy()
     {
+        PipeManager.evt_endCoolantTask -= EndCoolantTask;
+        MainframeTaskManager.evt_endMainframeTask -= EndMainframeTask;
+        WasteManager.evt_endWasteTask -= EndWasteTask;
+        ReactorManager.evt_endReactorTask -= EndReactorTask;
+    }
 
+    public void TutorialCleared()
+    {
+        StartCoroutine("AccumulateWaste");
+        StartCoroutine("DemandStart");
+        StartCoroutine("FireTask");
     }
 
     public void IncreaseWaterFlow()

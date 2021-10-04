@@ -23,6 +23,11 @@ public class WasteManager : MonoBehaviour
         GameManager.evt_beginWasteTask += BeginWasteTask;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.evt_beginWasteTask -= BeginWasteTask;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Barrel"))

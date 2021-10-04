@@ -36,6 +36,11 @@ public class ReactorManager : MonoBehaviour
         GameManager.evt_beginReactorTask += BeginReactorTask;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.evt_beginReactorTask -= BeginReactorTask;
+    }
+
     public void IncreaseRodCount()
     {
         rodCount++;

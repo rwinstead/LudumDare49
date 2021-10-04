@@ -32,11 +32,6 @@ public class NavTabletHandler : MonoBehaviour
     private string lastAnimationState;
 
 
-    void Awake()
-    {
-
-
-    }
 
     // Start is called before the first frame update
     void Start()

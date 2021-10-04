@@ -38,6 +38,19 @@ public class TerminalManager : MonoBehaviour
         MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.evt_beginReactorTask -= updatePanel;
+        GameManager.evt_beginCoolantTask -= updatePanel;
+        GameManager.evt_beginWasteTask -= updatePanel;
+        GameManager.evt_beginMainframeTask -= BeginMainframeTask;
+
+        ReactorManager.evt_endReactorTask -= updatePanel;
+        PipeManager.evt_endCoolantTask -= updatePanel;
+        WasteManager.evt_endWasteTask -= updatePanel;
+        MainframeTaskManager.evt_endMainframeTask -= EndMainframeTask;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -170,8 +183,9 @@ public class TerminalManager : MonoBehaviour
 
     IEnumerator tutorialFinishedDelay()
     {
+        GameManager.instance.TutorialCleared();
         yield return new WaitForSeconds(20f);
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        gManager.BeginCoolantTask();
+        //gManager.BeginCoolantTask();
     }
 }
