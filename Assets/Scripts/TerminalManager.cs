@@ -88,6 +88,7 @@ public class TerminalManager : MonoBehaviour
 
     void updatePanel()
     {
+        StopAllCoroutines();
         numAlerts = 0;
         string textBlock = "";
 
@@ -99,11 +100,11 @@ public class TerminalManager : MonoBehaviour
         if (!tutorialFinished)
         {
             if (tutorialScreen == 0) { textBlock = "You have 2 New Messages: \n\nHey! It's been quiet today, so we all decided to go home early. What could go wrong? The reactor is stable and should be fine on it's own, but if anything breaks you'll have to fix it yourself. Hope you don't mind. Oh, and please try not to blow anything up.\n\nManagement                                                                     Click to continue..."; }
-            if (tutorialScreen == 1) { textBlock = "They did WHAT? I TOLD THEM the new guy was starting today! Ugh, those morons never listen.\nLook, I'm sure it'll be fine, I'll run you though the basics. \n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 1) { textBlock = "They did WHAT? I TOLD THEM the new guy was starting today! Ugh, those morons never listen.\nLook, I'm sure it'll be fine, I'll run you though the basics. \n\n\n\n\nClick to continue..."; }
             if (tutorialScreen == 2) { textBlock = "See that panel in the top left? You want to match your output to demand as close as possible. Produce too much power and you'll fry the substation.  Produce too little and you'll cause a blackout. \n\n\n\n\nClick to continue..."; }
             if (tutorialScreen == 3) { textBlock = "Use the buttons on the right to regulate the coolant flow.  Too cold and the reactor will shut down, too hot and it'll go into meltdown. \n\n\n\n\nClick to continue..."; }
             if (tutorialScreen == 4) { textBlock = "Use the lever on the left to control the output of the reactor.  Just be careful not to let radiation levels too high.  \n\n\n\n\nClick to continue..."; }
-            if (tutorialScreen == 5) { textBlock = "If that happens use the button to raise your radiation shielding, but you can only use it once so it's for emergencies only.  \n\n\n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 5) { textBlock = "If that happens use the button to raise your radiation shielding, but you can only use it once so it's for emergencies only.  \n\n\n\n\nClick to continue..."; }
             if (tutorialScreen == 6) { textBlock = "All the other systems in the plant are automated so that should be about it.  Although if something does break down use the tablet on the desk to navigate the plant. \n\nYour replacement will be there in 10 hours!  I'm sure you'll do fine."; }
             if (tutorialScreen == 6)
             {
@@ -136,13 +137,14 @@ public class TerminalManager : MonoBehaviour
         }
 
         terminalText.SetText(textBlock);
-        StartCoroutine(typewriter(terminalText));
+        if (tutorialFinished) { StartCoroutine(typewriter(terminalText)); }
+        else { StartCoroutine(typewriter(terminalText,0,0,false)); }
 
     }
 
-    IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.00f, int startIndex = 0)
+    IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.00f, int startIndex = 0, bool colliderLock=false)
     {
-        //this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        if (colliderLock) { this.gameObject.GetComponent<BoxCollider2D>().enabled = false; }
         tmpText.ForceMeshUpdate();
 
         int totalVisibleCharacters = tmpText.textInfo.characterCount;
@@ -163,12 +165,13 @@ public class TerminalManager : MonoBehaviour
 
             yield return new WaitForSeconds(speed);
         }
-        //this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        if (colliderLock) { this.gameObject.GetComponent<BoxCollider2D>().enabled = true; }
     }
 
     IEnumerator tutorialFinishedDelay()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(20f);
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gManager.BeginCoolantTask();
     }
 }

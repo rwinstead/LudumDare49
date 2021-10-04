@@ -11,6 +11,7 @@ public class PipeManager : MonoBehaviour
     public GameObject goodPipe_spawnPos;
     public GameObject badPipe_spawnPos;
 
+
     public bool isPipeBroken = false;
     
     public static Action evt_endCoolantTask;
