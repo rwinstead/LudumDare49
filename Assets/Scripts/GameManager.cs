@@ -468,11 +468,11 @@ public class GameManager : MonoBehaviour
     {
 
 
-        tempOffset += UnityEngine.Random.Range(-2, 3);
+        tempOffset += UnityEngine.Random.Range(-4, 5);
         if (tempOffset > maxTempOffset) { tempOffset = maxTempOffset; }
         if (tempOffset < -maxTempOffset) { tempOffset = -maxTempOffset; }
 
-        radOffset += UnityEngine.Random.Range(-25, 31);
+        radOffset += UnityEngine.Random.Range(-2, 3);
         if (radOffset > maxRadOffset) { radOffset = maxRadOffset; }
         if (radOffset < -maxRadOffset) { radOffset = -maxRadOffset; }
 
@@ -480,7 +480,7 @@ public class GameManager : MonoBehaviour
         if (demandOffset > maxDemandOffset) { demandOffset = maxDemandOffset; }
         if (demandOffset < -maxDemandOffset) { demandOffset = -maxDemandOffset; }
 
-        outputOffset += UnityEngine.Random.Range(-25, 26);
+        outputOffset += UnityEngine.Random.Range(-25, 31);
         if (outputOffset > maxOutputOffset) { outputOffset = maxOutputOffset; }
         if (outputOffset < -maxOutputOffset) { outputOffset = -maxOutputOffset; }
 
