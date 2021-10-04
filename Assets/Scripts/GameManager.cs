@@ -67,12 +67,19 @@ public class GameManager : MonoBehaviour
 
     public int wasteBuildupTime = 25;
     public int wasteBarrels = 0;
-
-    public List<int> demandList = new List<int>();
     public int DemandChangeTime = 15;
     public int demandIndex = 0;
+    public GameObject winScreen;
+
+    public int taskTime = 35;
+
+    public List<int> demandList = new List<int>();
+
+    public List<string> TaskList = new List<string>();
 
     public UnityEvent spawnWasteBarrel;
+
+    public bool shieldsUsed = false;
 
     private void Awake()
     {
@@ -95,6 +102,7 @@ public class GameManager : MonoBehaviour
         
         StartCoroutine("AccumulateWaste");
         StartCoroutine("DemandStart");
+        StartCoroutine("FireTask");
 
         demand = demandList[0];
     }
@@ -122,7 +130,11 @@ public class GameManager : MonoBehaviour
 
     public void ActivateShields()
     {
-        shieldsActive = true;
+        if(!shieldsUsed)
+        {
+            shieldsActive = true;
+            StartCoroutine("StartShieldsTimer");
+        }
     }
 
     public void OpenNavTablet()
@@ -178,6 +190,12 @@ public class GameManager : MonoBehaviour
         //temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
         //radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
         if (radiation < 0) { radiation = 0; }
+
+        if(wasteBarrels  >= 7)
+        {
+            BeginWasteTask();
+        }
+
     }
 
     public void BeginMainframeTask()
@@ -277,7 +295,7 @@ public class GameManager : MonoBehaviour
 
     public void CalculateRadiation()
     {
-        int baseline = 1 + wasteBarrels * 20;
+        int baseline = 1 + wasteBarrels * 40;
 
         if (leverstate == LeverManager.leverState.Top) baseline += 35;
         else if (leverstate == LeverManager.leverState.Middle) baseline += 0;
@@ -362,11 +380,45 @@ public class GameManager : MonoBehaviour
 
             else
             {
-                //game won?
+                winScreen.SetActive(true);
             }
 
         }
     }
 
+    IEnumerator FireTask()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(taskTime);
+            ChooseTask();
+        }
+    }
+
+    void ChooseTask()
+    { 
+        if(TaskList.Count <= 0)
+        {
+            TaskList.Add("Mainframe");
+            TaskList.Add("Reactor");
+            TaskList.Add("Coolant");
+        }
+
+        int task = UnityEngine.Random.Range(0, TaskList.Count - 1);
+
+        if (TaskList[task] == "Mainframe") BeginMainframeTask();
+        else if (TaskList[task] == "Reactor") BeginCoolantTask();
+        else if (TaskList[task] == "Coolant") BeginReactorTask();
+
+        TaskList.RemoveAt(task);
+       
+    }
+
+    IEnumerator StartShieldsTimer()
+    {
+        shieldsUsed = true;
+        yield return new WaitForSeconds(10);
+        shieldsActive = false;
+    }
 
 }

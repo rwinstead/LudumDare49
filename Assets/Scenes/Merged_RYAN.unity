@@ -14791,6 +14791,7 @@ GameObject:
   - component: {fileID: 1399774942}
   - component: {fileID: 1399774941}
   - component: {fileID: 1399774943}
+  - component: {fileID: 1399774944}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -14884,6 +14885,32 @@ MonoBehaviour:
   monitorAlarm: {fileID: 1027869189}
   gameManagerHolder: {fileID: 1765471838}
   numAlerts: 0
+--- !u!61 &1399774944
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399774940}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 29.874495, y: 6.36}
+    newSize: {x: 29.874495, y: 6.36}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 29.874495, y: 6.36}
+  m_EdgeRadius: 0
 --- !u!1 &1430726381
 GameObject:
   m_ObjectHideFlags: 0
@@ -18609,11 +18636,17 @@ MonoBehaviour:
   demandBar: {fileID: 1496463877}
   output: 0
   demand: 0
-  wasteBuildupTime: 5
+  wasteBuildupTime: 15
   wasteBarrels: 0
-  demandList: 38040000b004000014050000dc0500007805000008070000
-  DemandChangeTime: 2
+  DemandChangeTime: 30
   demandIndex: 0
+  winScreen: {fileID: 1864230292}
+  taskTime: 45
+  demandList: 38040000b004000014050000dc050000780500004006000072060000a4060000080700003a070000
+  TaskList:
+  - Mainframe
+  - Reactor
+  - Coolant
   spawnWasteBarrel:
     m_PersistentCalls:
       m_Calls:
@@ -18629,6 +18662,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  shieldsUsed: 0
 --- !u!4 &1765471840
 Transform:
   m_ObjectHideFlags: 0
@@ -21219,7 +21253,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1765471839}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Test
+        m_MethodName: ActivateShields
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

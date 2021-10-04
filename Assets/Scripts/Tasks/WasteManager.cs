@@ -31,7 +31,7 @@ public class WasteManager : MonoBehaviour
             collision.gameObject.SetActive(false);
             barrelCount--;
             GameManager.instance.wasteBarrels--;
-            if(barrelCount == 0)
+            if(GameManager.instance.wasteBarrels < 1)
             {
                 evt_endWasteTask?.Invoke();
             }
