@@ -472,15 +472,12 @@ public class GameManager : MonoBehaviour
         if (tempOffset > maxTempOffset) { tempOffset = maxTempOffset; }
         if (tempOffset < -maxTempOffset) { tempOffset = -maxTempOffset; }
 
-        radOffset += UnityEngine.Random.Range(-2, 3);
         if (radOffset > maxRadOffset) { radOffset = maxRadOffset; }
         if (radOffset < -maxRadOffset) { radOffset = -maxRadOffset; }
 
-        demandOffset += UnityEngine.Random.Range(-10, 11);
         if (demandOffset > maxDemandOffset) { demandOffset = maxDemandOffset; }
         if (demandOffset < -maxDemandOffset) { demandOffset = -maxDemandOffset; }
 
-        outputOffset += UnityEngine.Random.Range(-10, 11);
         if (outputOffset > maxOutputOffset) { outputOffset = maxOutputOffset; }
         if (outputOffset < -maxOutputOffset) { outputOffset = -maxOutputOffset; }
 
