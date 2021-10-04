@@ -20086,6 +20086,7 @@ MonoBehaviour:
   alm_WasteDisposal: {fileID: 870926002}
   alm_UraniumStorage: {fileID: 509304628}
   alm_Mainframe: {fileID: 558279852}
+  StorageManager: {fileID: 281870054}
   playerIcon: {fileID: 1491814093}
   playerCurrentRoom: 
   playerTargetRoom: 

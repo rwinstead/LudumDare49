@@ -21,6 +21,8 @@ public class NavTabletHandler : MonoBehaviour
     public GameObject alm_UraniumStorage;
     public GameObject alm_Mainframe;
 
+    public GameObject StorageManager;
+
     public GameObject playerIcon;
 
     public string playerCurrentRoom;
@@ -343,9 +345,22 @@ public class NavTabletHandler : MonoBehaviour
 
         Debug.Log("Reactor alarm "+gManager.playerCurrentRoom);
 
+        
+
         if (gManager.ReactorTaskActive)
         {
-            alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Alarming");
+            alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Off");
+            alm_UraniumStorage.GetComponent<Animator>().Play("Base Layer.Off");
+
+            if (StorageManager.GetComponent<UraniumStorageManager>().unitsPickedUp > 2)
+            {
+                alm_ReactorRoom.GetComponent<Animator>().Play("Base Layer.Alarming");
+            }
+            else
+            {
+                alm_UraniumStorage.GetComponent<Animator>().Play("Base Layer.Alarming");
+            }
+
         }
         else
         {
