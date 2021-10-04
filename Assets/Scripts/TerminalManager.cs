@@ -18,16 +18,24 @@ public class TerminalManager : MonoBehaviour
 
     public int numAlerts;
 
+    private bool tutorialFinished = false;
+    private int tutorialScreen = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         gManager = gameManagerHolder.GetComponent<GameManager>();
-        StartCoroutine(typewriter(terminalText, 0.03f));
+        updatePanel();
 
-        GameManager.evt_beginReactorTask += BeginReactorTask;
-        GameManager.evt_beginCoolantTask += BeginCoolantTask;
-        GameManager.evt_beginWasteTask += BeginWasteTask;
+        GameManager.evt_beginReactorTask += updatePanel;
+        GameManager.evt_beginCoolantTask += updatePanel;
+        GameManager.evt_beginWasteTask += updatePanel;
         GameManager.evt_beginMainframeTask += BeginMainframeTask;
+
+        ReactorManager.evt_endReactorTask += updatePanel;
+        PipeManager.evt_endCoolantTask += updatePanel;
+        WasteManager.evt_endWasteTask += updatePanel;
+        MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
     }
 
     // Update is called once per frame
@@ -40,23 +48,28 @@ public class TerminalManager : MonoBehaviour
         //StartCoroutine(typewriter(terminalText_hacked, 0.005f, 100));
 
         //monitorAlarm.GetComponent<Animator>().Play("Base Layer.Alarming");
-        //monitorAlarm.GetComponent<Animator>().Play("Base Layer.Off");
+        //
 
+    }
+
+    private void OnMouseDown()
+    {
+        updatePanel();
     }
 
     public void BeginReactorTask()
     {
-
+        updatePanel();
     }
 
     public void BeginCoolantTask()
     {
-
+        updatePanel();
     }
 
     public void BeginWasteTask()
     {
-
+        updatePanel();
     }
 
     public void BeginMainframeTask()
@@ -66,25 +79,70 @@ public class TerminalManager : MonoBehaviour
         StartCoroutine(typewriter(terminalText_hacked, 0.005f, 100));
     }
 
+    public void EndMainframeTask()
+    {
+        terminalText.gameObject.SetActive(true);
+        terminalText_hacked.gameObject.SetActive(false);
+        updatePanel();
+    }
+
     void updatePanel()
     {
         numAlerts = 0;
+        string textBlock = "";
 
         if (gManager.ReactorTaskActive) { numAlerts++; }
         if (gManager.CoolantTaskActive) { numAlerts++; }
         if (gManager.WasteTaskActive) { numAlerts++; }
         if (gManager.StorageTaskActive) { numAlerts++; }
-        if (gManager.MainframeTaskActive) { numAlerts++; }
 
-        if (numAlerts > 0)
+        if (!tutorialFinished)
         {
-
+            if (tutorialScreen == 0) { textBlock = "You have 2 New Messages: \n\nHey! It's been quiet today, so we all decided to go home early. What could go wrong? The reactor is stable and should be fine on it's own, but if anything breaks you'll have to fix it yourself. Hope you don't mind. Oh, and please try not to blow anything up.\n\nManagement                                                                     Click to continue..."; }
+            if (tutorialScreen == 1) { textBlock = "They did WHAT? I TOLD THEM the new guy was starting today! Ugh, those morons never listen.\nLook, I'm sure it'll be fine, I'll run you though the basics. \n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 2) { textBlock = "See that panel in the top left? You want to match your output to demand as close as possible. Produce too much power and you'll fry the substation.  Produce too little and you'll cause a blackout. \n\n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 3) { textBlock = "Use the buttons on the right to regulate the coolant flow.  Too cold and the reactor will shut down, too hot and it'll go into meltdown. \n\n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 4) { textBlock = "Use the lever on the left to control the output of the reactor.  Just be careful not to let radiation levels too high.  \n\n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 5) { textBlock = "If that happens use the button to raise your radiation shielding, but you can only use it once so it's for emergencies only.  \n\n\n\n\n\nClick to continue..."; }
+            if (tutorialScreen == 6) { textBlock = "All the other systems in the plant are automated so that should be about it.  Although if something does break down use the tablet on the desk to navigate the plant. \n\nYour replacement will be there in 10 hours!  I'm sure you'll do fine."; }
+            if (tutorialScreen == 6)
+            {
+                tutorialFinished = true;
+                this.gameObject.GetComponent<BoxCollider2D>().enabled  = false;
+                StartCoroutine(tutorialFinishedDelay());
+            }
+            //if (tutorialScreen == 8) { textBlock = "Click to continue..."; }
+            tutorialScreen++;
         }
+        else
+        {
+            if (numAlerts > 0)
+            {
+                monitorAlarm.GetComponent<Animator>().Play("Base Layer.Alarming");
+                textBlock = "************************ WARNING: " + numAlerts + " Plant automation systems are offline. **************************\n\n";
+
+                if (gManager.ReactorTaskActive) { textBlock += " * Reactor is running low on fuel.  Acquire from storage and refuel the reactor.\n"; }
+                if (gManager.CoolantTaskActive) { textBlock += " * A pipe in the Coolant System has broken, it must be replaced.\n"; }
+                if (gManager.WasteTaskActive) { textBlock += " * Waste Buildup is causing dangerous levels of radiation, dispose of waste immediately.\n"; }
+                if (gManager.StorageTaskActive) { textBlock += "This shouldn't even happen."; }
+
+            }
+            if (numAlerts == 0)
+            {
+
+                textBlock = "The reactor is stable.";
+                monitorAlarm.GetComponent<Animator>().Play("Base Layer.Off");
+            }
+        }
+
+        terminalText.SetText(textBlock);
+        StartCoroutine(typewriter(terminalText));
+
     }
 
-    IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.05f, int startIndex = 0)
+    IEnumerator typewriter(TextMeshPro tmpText, float speed = 0.00f, int startIndex = 0)
     {
-
+        //this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         tmpText.ForceMeshUpdate();
 
         int totalVisibleCharacters = tmpText.textInfo.characterCount;
@@ -105,5 +163,12 @@ public class TerminalManager : MonoBehaviour
 
             yield return new WaitForSeconds(speed);
         }
+        //this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    IEnumerator tutorialFinishedDelay()
+    {
+        yield return new WaitForSeconds(15f);
+        gManager.BeginCoolantTask();
     }
 }

@@ -25,9 +25,12 @@ public class PipeManager : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Pipe"))
         {
-            Debug.Log("pipe is here");
-            isPipeBroken = false;
-            evt_endCoolantTask?.Invoke();
+            if (Time.time > 5f)
+            {
+                Debug.Log("pipe is here");
+                isPipeBroken = false;
+                evt_endCoolantTask?.Invoke();
+            }
         }
     }
 
