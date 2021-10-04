@@ -83,8 +83,20 @@ public class GameManager : MonoBehaviour
 
     public bool shieldsUsed = false;
 
+    public int maxTempOffset = 20;
+    public int maxRadOffset = 10;
+    public int maxDemandOffset = 80;
+    public int maxOutputOffset = 80;
+
+    private int tempOffset;
+    private int radOffset;
+    private int demandOffset;
+    private int outputOffset;
+
     private void Awake()
     {
+        UnityEngine.Random.seed = System.DateTime.Now.Millisecond;
+
         if (instance == null)
         {
             instance = this;
@@ -103,6 +115,8 @@ public class GameManager : MonoBehaviour
         ReactorManager.evt_endReactorTask += EndReactorTask;
 
         demand = demandList[0];
+
+        StartCoroutine("triggerDataNoise");
     }
 
     private void OnDestroy()
@@ -193,8 +207,10 @@ public class GameManager : MonoBehaviour
 
         CalculateData();
 
-        //temperature = Mathf.RoundToInt(temperature + (tempNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, -10.0f)) - (tempNoiseFactor / 2));
-        //radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
+
+
+        temperature += tempOffset;
+        radiation += radOffset;
         if (radiation < 0) { radiation = 0; }
 
         if(wasteBarrels  >= 7 && !WasteTaskActive)
@@ -335,6 +351,8 @@ public class GameManager : MonoBehaviour
 
         if (output > 2500) output = 2500;
 
+        output += outputOffset;
+
         float ratio = Remap(output, outputMin, outputMax, minBarScale, maxBarScale);
 
         outputBar.localScale = new Vector3(ratio, outputBar.localScale.y, outputBar.localScale.z);
@@ -351,7 +369,8 @@ public class GameManager : MonoBehaviour
         float maxBarScale = 0.62f;
         float minBarScale = .05f;
 
-        float ratio = Remap(demand, demandMin, demandMax, minBarScale, maxBarScale);
+
+        float ratio = Remap((demand + demandOffset), demandMin, demandMax, minBarScale, maxBarScale);
 
         demandBar.localScale = new Vector3(ratio, outputBar.localScale.y, outputBar.localScale.z);
     }
@@ -445,10 +464,47 @@ public class GameManager : MonoBehaviour
         StartCoroutine("TasksDelay");
     }
 
+    public void DataNoise()
+    {
+
+
+        tempOffset += UnityEngine.Random.Range(-2, 3);
+        if (tempOffset > maxTempOffset) { tempOffset = maxTempOffset; }
+        if (tempOffset < -maxTempOffset) { tempOffset = -maxTempOffset; }
+
+        radOffset += UnityEngine.Random.Range(-2, 3);
+        if (radOffset > maxRadOffset) { radOffset = maxRadOffset; }
+        if (radOffset < -maxRadOffset) { radOffset = -maxRadOffset; }
+
+        demandOffset += UnityEngine.Random.Range(-10, 11);
+        if (demandOffset > maxDemandOffset) { demandOffset = maxDemandOffset; }
+        if (demandOffset < -maxDemandOffset) { demandOffset = -maxDemandOffset; }
+
+        outputOffset += UnityEngine.Random.Range(-10, 11);
+        if (outputOffset > maxOutputOffset) { outputOffset = maxOutputOffset; }
+        if (outputOffset < -maxOutputOffset) { outputOffset = -maxOutputOffset; }
+
+       //Debug.Log("temp "+tempOffset);
+       //Debug.Log("rad "+radOffset);
+       //Debug.Log("output "+outputOffset);
+       //Debug.Log("demand "+demandOffset);
+
+    }
+
+
     IEnumerator TasksDelay()
     {
         yield return new WaitForSeconds(10);
         StartCoroutine("FireTask");
+    }
+
+    IEnumerator triggerDataNoise()
+    {
+        while (true)
+        {
+            DataNoise();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0,0.3f));
+        }
     }
 
 }
