@@ -18,8 +18,8 @@ public class MainframeTaskManager : MonoBehaviour
     public string correctLogin = null;
     public string correctPass = null;
 
-    private string[] Usernames = new string[] { "BobbyBoi", "JimBob3", "Maurice_Moss", "RuyLopez", "MelonLord", "twinkle.toes", "Anonymoose", "Leorio" };
-    private string[] Passwords = new string[] { "ihatePasswrds", "Potatoads87!", "Password123", "LudenDare49", "000destruct0", "NotTellingYou", "R$P5#oDW", "d$!P@Za8", "P@$$w0rd" };
+    private string[] Usernames = new string[] { "BobbyBoi", "JimBob3", "Maurice_Moss", "RuyLopez", "MelonLord", "twinkle.toes", "Anonymoose", "Leorio!", "Admin", "root" };
+    private string[] Passwords = new string[] { "ihatePasswrds", "Potatoads87!", "Password123", "LudumDare49", "NotTellingYou", "R$P5#oDW", "d$!P@Za8", "P@$$w()rd", "iHaetpasswords" };
 
     public GameObject step1;
     public GameObject step2;
@@ -35,12 +35,26 @@ public class MainframeTaskManager : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown("tab") && login.isFocused)
+        {
+            password.ActivateInputField();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && step1.activeSelf)
+        {
+            checkCredentials();
+        }
+    }
+
     public void checkCredentials()
     {
         if (login.text == correctLogin && password.text == correctPass)
         {
             step1.SetActive(false);
             step2.SetActive(true);
+            wipe.ActivateInputField();
         }
     }
 
@@ -62,6 +76,10 @@ public class MainframeTaskManager : MonoBehaviour
 
         correctLogin = Usernames[UnityEngine.Random.Range(0, Usernames.Length)];
         correctPass = Passwords[UnityEngine.Random.Range(0, Passwords.Length)];
+
+        login.text = "";
+        password.text = "";
+        wipe.text = "";
 
         StickyLogin.SetText(correctLogin);
         StickyPassword.SetText(correctPass);

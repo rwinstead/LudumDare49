@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
         //radiation = Mathf.RoundToInt(radiation + (radNoiseFactor * Mathf.PerlinNoise(Time.time * 8f, 12.0f)) - (radNoiseFactor / 2));
         if (radiation < 0) { radiation = 0; }
 
-        if(wasteBarrels  >= 7)
+        if(wasteBarrels  >= 7 && !WasteTaskActive)
         {
             BeginWasteTask();
         }
