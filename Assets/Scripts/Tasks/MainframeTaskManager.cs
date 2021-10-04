@@ -19,7 +19,7 @@ public class MainframeTaskManager : MonoBehaviour
     public string correctPass = null;
 
     private string[] Usernames = new string[] { "BobbyBoi", "JimBob3", "Maurice_Moss", "RuyLopez", "MelonLord", "twinkle.toes", "Anonymoose", "Leorio!", "Admin", "root" };
-    private string[] Passwords = new string[] { "ihatePasswrds", "Potatoads87!", "Password123", "LudumDare49", "NotTellingYou", "R$P5#oDW", "d$!P@Za8", "P@$$w()rd", "iHaetpasswords" };
+    private string[] Passwords = new string[] { "ihatePasswrds", "Potatoads87!", "Password123", "LudumDare49", "NotTellingYou", "R$P5#oDW", "d$!P@Za8", "P@$$w()rd", "iHaetpasswords","HackThePlanet" };
 
     public GameObject step1;
     public GameObject step2;

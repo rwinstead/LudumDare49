@@ -22,7 +22,7 @@ public class TerminalManager : MonoBehaviour
 
     public CheckForLoss checker;
 
-    private string[] HappyMessages = new string[] { "You go girl!", "The bees are happy. :-)", "All is right with the world", "Take a break, you deserve it.", "They should give you a raise.", "First you set yourself to rights. And then your house. And then your corner of the sky. And after that... Well, then she didn't rightly know what happened next." };
+    private string[] HappyMessages = new string[] { "The bees are happy. :-)", "And all was right with the world", "Take a break, you deserve it.", "They should give you a raise.", "First you set yourself to rights. And then your house. And then your corner of the sky. And after that... Well, then she didn't rightly know what happened next.", "Have you tried turning off and on again?" };
 
 
     // Start is called before the first frame update
