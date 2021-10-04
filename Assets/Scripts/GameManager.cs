@@ -443,8 +443,8 @@ public class GameManager : MonoBehaviour
         int task = UnityEngine.Random.Range(0, TaskList.Count);
 
         if (TaskList[task] == "Mainframe") BeginMainframeTask();
-        else if (TaskList[task] == "Reactor") BeginCoolantTask();
-        else if (TaskList[task] == "Coolant") BeginReactorTask();
+        else if (TaskList[task] == "Reactor") BeginReactorTask();
+        else if (TaskList[task] == "Coolant") BeginCoolantTask(); 
 
         TaskList.RemoveAt(task);
        
