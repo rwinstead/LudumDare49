@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviour
         if(ReactorTaskActive && !reducingTemp)
         {
             reducingTemp = true;
-            InvokeRepeating("ReduceTemp", 0, 6);
+            InvokeRepeating("ReduceTemp", 0, 10);
         }
 
     }
@@ -441,6 +441,7 @@ public class GameManager : MonoBehaviour
     public void StartTasks()
     {
         BeginCoolantTask();
+        TaskList.RemoveAt(2);
         StartCoroutine("TasksDelay");
     }
 

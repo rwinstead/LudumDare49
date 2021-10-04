@@ -126,12 +126,12 @@ public class TerminalManager : MonoBehaviour
 
         if (!tutorialFinished)
         {
-            if (tutorialScreen == 0) { textBlock = "You have 1 New Message: \n\nWelcome to your first night at the factory! Things have been totallyyyy stable around here so things should be a breeze.\n\n\nClick to continue..."; }
+            if (tutorialScreen == 0) { textBlock = "You have 1 New Message: \n\nWelcome to your first night at the plant! Things have been totallyyyy stable around here so things should be a breeze.\n\n\nClick to continue..."; }
             if (tutorialScreen == 1) { textBlock = "But she's an old plant, and things do, very ocassionally, go wrong. Just to be sure, I'll run you though the basics. \n\n\n\n\nClick to continue..."; }
             if (tutorialScreen == 2) { textBlock = "See that panel in the top left? You need to make sure your output is always meeting demand. Demand changes throughout the night, so make sure you're comfortably clear. It'll turn red if things are going south. \n\n\n\nClick to continue..."; }
             if (tutorialScreen == 3) { textBlock = "At the bottom is your control console. That's where the magic happens. Use the arrows on the right to regulate the coolant flow. Less coolant flow means hotter temperatures. Hotter temps means more output power. Go ahead and play with them. \n\n\n\nClick to continue..."; }
             if (tutorialScreen == 4) { textBlock = "However! If things get too hot, well, she'll blow. Kabloowie. Make sure that doesn't happen by keeping an eye on the temperature gauge in the top right of the screen. \n\nNow that lever there on the left of the control panel raises and lowers the control rods. When lowered, control rods lessen radiation, but they also decrease power output. Try 'er out.\n\nClick to continue..."; }
-            if (tutorialScreen == 5) { textBlock = "Oh, right. Radiation. Bad stuff. It creeps up as the plant creates waste. Make sure to go to the waste disposal room and dump the trash if your radiation meter is getting high. If shit totally hits the fan, slam the Shields button there. It'll cut the radiation completely for 10 seconds, but you can only use it once so it's for emergencies only.  \n\n\nClick to continue..."; }
+            if (tutorialScreen == 5) { textBlock = "Oh, right. Radiation. Bad stuff. It creeps up as the plant creates waste. Make sure to go to the waste disposal room and dump the trash regularly. If shit totally hits the fan, slam the Shields button there. It'll cut the radiation completely for 10 seconds, but you can only use it once so it's for emergencies only.  \n\n\nClick to continue..."; }
             if (tutorialScreen == 6) { textBlock = "To navigate the plant, click on the tablet in the bottom right. If anything goes wrong, you'll need to travel there and fix it yourself. \n\nWell, that's all I've got for you. You're on the clock now. Your replacement will be there in 10 hours! I'm sure you'll do just dandy. \n\n**End of Message.**"; }
             if (tutorialScreen == 6)
             {
@@ -200,7 +200,7 @@ public class TerminalManager : MonoBehaviour
     {
         checker.enabled = true;
         GameManager.instance.TutorialCleared();
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(12f);
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         GameManager.instance.StartTasks();
         //gManager.BeginCoolantTask();
