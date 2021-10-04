@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviour
 
     public int maxTempOffset = 20;
     public int maxRadOffset = 10;
-    public int maxDemandOffset = 80;
-    public int maxOutputOffset = 80;
+    public int maxDemandOffset = 100;
+    public int maxOutputOffset = 100;
 
     private int tempOffset;
     private int radOffset;
@@ -472,12 +472,15 @@ public class GameManager : MonoBehaviour
         if (tempOffset > maxTempOffset) { tempOffset = maxTempOffset; }
         if (tempOffset < -maxTempOffset) { tempOffset = -maxTempOffset; }
 
+        radOffset += UnityEngine.Random.Range(-25, 31);
         if (radOffset > maxRadOffset) { radOffset = maxRadOffset; }
         if (radOffset < -maxRadOffset) { radOffset = -maxRadOffset; }
 
+        demandOffset += UnityEngine.Random.Range(-25, 31);
         if (demandOffset > maxDemandOffset) { demandOffset = maxDemandOffset; }
         if (demandOffset < -maxDemandOffset) { demandOffset = -maxDemandOffset; }
 
+        outputOffset += UnityEngine.Random.Range(-25, 26);
         if (outputOffset > maxOutputOffset) { outputOffset = maxOutputOffset; }
         if (outputOffset < -maxOutputOffset) { outputOffset = -maxOutputOffset; }
 
