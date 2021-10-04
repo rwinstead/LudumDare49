@@ -19,6 +19,7 @@ public class TerminalManager : MonoBehaviour
     private bool tutorialFinished = false;
     private int tutorialScreen = 0;
 
+    public GameObject navTablet;
 
     public CheckForLoss checker;
 
@@ -40,6 +41,8 @@ public class TerminalManager : MonoBehaviour
         PipeManager.evt_endCoolantTask += updatePanel;
         WasteManager.evt_endWasteTask += updatePanel;
         MainframeTaskManager.evt_endMainframeTask += EndMainframeTask;
+
+        navTablet.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void OnDestroy()
@@ -137,6 +140,7 @@ public class TerminalManager : MonoBehaviour
             {
                 tutorialFinished = true;
                 this.gameObject.GetComponent<BoxCollider2D>().enabled  = false;
+                navTablet.GetComponent<BoxCollider2D>().enabled = true;
                 StartCoroutine(tutorialFinishedDelay());
             }
             //if (tutorialScreen == 8) { textBlock = "Click to continue..."; }
