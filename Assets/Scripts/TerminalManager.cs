@@ -204,7 +204,7 @@ public class TerminalManager : MonoBehaviour
     {
         checker.enabled = true;
         GameManager.instance.TutorialCleared();
-        yield return new WaitForSeconds(12f);
+        yield return new WaitForSeconds(17f);
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         GameManager.instance.StartTasks();
         //gManager.BeginCoolantTask();
