@@ -11,8 +11,6 @@ public class TerminalManager : MonoBehaviour
 
     public GameObject monitorAlarm;
 
-    private string lastTerminalContents = "";
-
     public GameObject gameManagerHolder;
     private GameManager gManager = GameManager.instance;
 
@@ -21,7 +19,11 @@ public class TerminalManager : MonoBehaviour
     private bool tutorialFinished = false;
     private int tutorialScreen = 0;
 
+
     public CheckForLoss checker;
+
+    private string[] HappyMessages = new string[] { "You go girl!", "The bees are happy. :-)", "All is right with the world", "Take a break, you deserve it.", "They should give you a raise.", "First you set yourself to rights. And then your house. And then your corner of the sky. And after that... Well, then she didn't rightly know what happened next." };
+
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +105,15 @@ public class TerminalManager : MonoBehaviour
         updatePanel();
     }
 
-    void updatePanel()
+    public void showCredits()
+    {
+        StopAllCoroutines();
+        string textBlock = "This game was built in 72 hours for Ludum Dare 49 in Oct 2021 \n\n Contributors:\n Ryan Winstead\n Josh Todd\n\nThanks for Playing!";
+        terminalText.SetText(textBlock);
+        StartCoroutine(typewriter(terminalText, 0, 0, false));
+    }
+
+    public void updatePanel()
     {
         StopAllCoroutines();
         numAlerts = 0;
@@ -148,14 +158,15 @@ public class TerminalManager : MonoBehaviour
             if (numAlerts == 0)
             {
 
-                textBlock = "The reactor is stable.";
+                textBlock = "The reactor is stable.\n\n";
+                textBlock += HappyMessages[UnityEngine.Random.Range(0, HappyMessages.Length)];
+
                 monitorAlarm.GetComponent<Animator>().Play("Base Layer.Off");
             }
         }
 
         terminalText.SetText(textBlock);
-        if (tutorialFinished) { StartCoroutine(typewriter(terminalText)); }
-        else { StartCoroutine(typewriter(terminalText,0,0,false)); }
+        StartCoroutine(typewriter(terminalText,0,0,false));
 
     }
 
