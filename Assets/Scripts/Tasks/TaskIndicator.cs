@@ -35,12 +35,21 @@ public class TaskIndicator : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.evt_beginReactorTask -= taskActive;
-        ReactorManager.evt_endReactorTask -= taskCompleted;
-        GameManager.evt_beginCoolantTask -= taskActive;
-        PipeManager.evt_endCoolantTask -= taskCompleted;
-        GameManager.evt_beginWasteTask -= taskActive;
-        WasteManager.evt_endWasteTask -= taskCompleted;
+        if (thisTask == Task.Reactor)
+        {
+            GameManager.evt_beginReactorTask -= taskActive;
+            ReactorManager.evt_endReactorTask -= taskCompleted;
+        }
+        if (thisTask == Task.Coolant)
+        {
+            GameManager.evt_beginCoolantTask -= taskActive;
+            PipeManager.evt_endCoolantTask -= taskCompleted;
+        }
+        if (thisTask == Task.Waste)
+        {
+            GameManager.evt_beginWasteTask -= taskActive;
+            WasteManager.evt_endWasteTask -= taskCompleted;
+        }
     }
 
     // Update is called once per frame
@@ -55,4 +64,6 @@ public class TaskIndicator : MonoBehaviour
         activeIndicator.SetActive(false);
         completedIndicator.SetActive(true);
     }
+
+
 }

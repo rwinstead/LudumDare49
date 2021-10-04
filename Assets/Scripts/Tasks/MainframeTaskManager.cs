@@ -18,8 +18,8 @@ public class MainframeTaskManager : MonoBehaviour
     public string correctLogin = null;
     public string correctPass = null;
 
-    private string[] Usernames = new string[] { "BobbyBoi", "JimBob3", "Maurice_Moss", "RuyLopez", "MelonLord", "twinkle.toes" };
-    private string[] Passwords = new string[] { "ihatePasswrds", "iLuvChickn", "Potatoads87!", "Password123", "LudenDare49" };
+    private string[] Usernames = new string[] { "BobbyBoi", "JimBob3", "Maurice_Moss", "RuyLopez", "MelonLord", "twinkle.toes", "Anonymoose", "Leorio" };
+    private string[] Passwords = new string[] { "ihatePasswrds", "Potatoads87!", "Password123", "LudenDare49", "000destruct0", "NotTellingYou", "R$P5#oDW", "d$!P@Za8", "P@$$w0rd" };
 
     public GameObject step1;
     public GameObject step2;
@@ -33,11 +33,6 @@ public class MainframeTaskManager : MonoBehaviour
 
         BeginMainframeTask();
 
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.evt_beginMainframeTask -= BeginMainframeTask;
     }
 
     public void checkCredentials()
@@ -74,6 +69,11 @@ public class MainframeTaskManager : MonoBehaviour
 
 
 
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.evt_beginMainframeTask -= BeginMainframeTask;
     }
 
 }
